@@ -10,23 +10,24 @@
 <body>
     <div align="center">
         <h1>Contact</h1>
-        <form action="contact" method="POST" >
+        <form action="${pageContext.request.contextPath}/contacts/update" method="POST" >
+          <input type="hidden" name="id" value="${contact.id}" />
           <table>
               <tr>
                   <td>Name:</td>
-                  <td><input type="text" name="name" value="${name}"/></td>
+                  <td><input type="text" name="name" value="${contact.name}"/></td>
               </tr>
               <tr>
                   <td>Email:</td>
-                  <td><input type="email" name="email" value="${email}"/></td>
+                  <td><input type="email" name="email" value="${contact.email}"/></td>
               </tr>
               <tr>
                   <td>Address:</td>
-                  <td><input type="text" name="add" value="${add}"/></td>
+                  <td><input type="text" name="add" value="${contact.address}"/></td>
               </tr>
               <tr>
                   <td>Telephone:</td>
-                  <td><input type="tel" name="tel" value="${tel}"/></td>
+                  <td><input type="tel" name="tel" value="${contact.telephone}"/></td>
               </tr>
               <tr>
                   <td colspan="2" align="center"><input type="submit" value="Submit"></td>
