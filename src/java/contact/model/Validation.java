@@ -14,17 +14,30 @@ import javax.mail.internet.InternetAddress;
  */
 public class Validation {
 
-  private final String data;
+  public String[] rules;
 
-  public Validation(String data){
+  private final String data;
+  private final Boolean isRequired;
+
+
+  public Validation(String data, Boolean isRequired){
     this.data = data;
+    if (isRequired == null){
+      this.isRequired = false;
+    } else {
+      this.isRequired = isRequired;
+    }
   }
 
   public String getData() {
     return data;
   }
 
-  public boolean isEmail(Boolean require) {
+  public boolean isEmail() {
+    if (isBlank() && !isRequired){
+      return true;
+    }
+
     boolean result = true;
     try {
        InternetAddress emailAddr = new InternetAddress(data);
@@ -39,7 +52,11 @@ public class Validation {
     return data.length() > 0;
   }
 
-  public Boolean length(int min, int max) {
-
+  public Boolean range(int min, int max) {
+    if (isBlank() && !isRequired){
+      return true;
+    } else {
+      return (Integer.parseInt(data) >= min && Integer.parseInt(data) <= max);
+    }
   }
 }

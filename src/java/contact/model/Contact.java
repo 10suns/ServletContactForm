@@ -16,6 +16,8 @@ public class Contact {
   private String address;
   private String telephone;
 
+  public String[] errors;
+
   public Contact() {
 
   }
@@ -65,5 +67,9 @@ public class Contact {
 
   public void setTelephone(String telephone) {
     this.telephone = telephone;
+  }
+
+  public Boolean validate(){
+    return true;
   }
 }
