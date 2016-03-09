@@ -24,11 +24,11 @@ public class DeleteContact extends HttpServlet{
     ContactDAO contactDAO = new ContactDAOImpl(Configuration.getDataSource());
     try {
       int id = Integer.parseInt(request.getParameter("id"));
-      contactDAO.delete(id);
+      if (contactDAO.delete(id) > 0) {
+        response.sendRedirect("");
+      }
     } catch (Exception e) {
       response.sendError(HttpServletResponse.SC_NOT_FOUND);
     }
-
-    response.sendRedirect("");
   }
 }

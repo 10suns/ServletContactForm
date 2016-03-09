@@ -10,14 +10,19 @@ import contact.dao.ContactDAO;
 import contact.dao.ContactDAOImpl;
 import contact.model.Contact;
 import java.io.IOException;
+
 import javax.servlet.*;
 import javax.servlet.http.*;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 
 /**
  *
  * @author tranthanhan
  */
 public class UpdateContact extends HttpServlet{
+  private Validator validator;
+  private ValidatorFactory vf;
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response)
           throws ServletException, IOException {
@@ -34,7 +39,7 @@ public class UpdateContact extends HttpServlet{
 
     }
 
-    if (validate()){
+    if (contact.isValid()){
       ContactDAO contactDAO = new ContactDAOImpl(Configuration.getDataSource());
       contactDAO.saveOrUpdate(contact);
       response.sendRedirect("contacts");
@@ -42,9 +47,5 @@ public class UpdateContact extends HttpServlet{
       request.setAttribute("contact", contact);
       request.getRequestDispatcher(Configuration.VIEW_DIR + "contactForm.jsp").forward(request, response);
     }
-  }
-
-  public Boolean validate() {
-    return true;
   }
 }

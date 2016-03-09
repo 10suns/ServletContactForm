@@ -14,9 +14,9 @@ import java.util.List;
  */
 public interface ContactDAO {
 
-  public void saveOrUpdate(Contact contact);
+  public int saveOrUpdate(Contact contact);
 
-  public void delete(int contactID);
+  public int delete(int contactID);
 
   public Contact get(int contactID);
 

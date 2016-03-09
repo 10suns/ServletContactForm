@@ -30,22 +30,22 @@ public class ContactDAOImpl implements ContactDAO{
   }
 
   @Override
-  public void saveOrUpdate(Contact contact) {
+  public int saveOrUpdate(Contact contact) {
     if (contact.getId() > 0) {
       // update
       String sql = "UPDATE contact SET name = ?, email =?, address =?, telephone=? WHERE contact_id=?";
-      jdbcTemplate.update(sql, contact.getName(), contact.getEmail(), contact.getAddress(), contact.getTelephone(), contact.getId());
+      return jdbcTemplate.update(sql, contact.getName(), contact.getEmail(), contact.getAddress(), contact.getTelephone(), contact.getId());
     } else {
       // insert
       String sql = "INSERT INTO contact(name, email, address, telephone) VALUE(?, ?, ?, ?)";
-      jdbcTemplate.update(sql, contact.getName(), contact.getEmail(), contact.getAddress(), contact.getTelephone());
+      return  jdbcTemplate.update(sql, contact.getName(), contact.getEmail(), contact.getAddress(), contact.getTelephone());
     }
   }
 
   @Override
-  public void delete(int contactID) {
+  public int delete(int contactID) {
     String sql = "DELETE FROM contact WHERE contact_id=?";
-    jdbcTemplate.update(sql, contactID);
+    return jdbcTemplate.update(sql, contactID);
   }
 
   @Override
