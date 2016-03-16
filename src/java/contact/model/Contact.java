@@ -38,7 +38,7 @@ public class Contact {
   private String address;
 
   @NotNull
-  @Pattern(regexp="(^[0-9]{10}$)")
+  @Pattern(regexp="(^[0-9]{1,10}$)")
   private String telephone;
 
   public Contact() {
@@ -98,11 +98,15 @@ public class Contact {
     this.telephone = telephone;
   }
 
+  public HashMap<String,String> getErrorMessages() {
+      return this.errorMessages;
+  }
+
   public boolean isValid(){
     Set<ConstraintViolation<Contact>> violations;
     violations = validator.validate(this);
     HashMap<String, String> messages = new HashMap<>();
-    if (violations != null) {
+    if (!violations.isEmpty()) {
       for (ConstraintViolation<Contact> cv : violations) {
         String field = cv .getPropertyPath().toString();
         String message = cv.getMessage();
@@ -110,6 +114,6 @@ public class Contact {
       }
     }
     errorMessages = messages;
-    return violations == null;
+    return violations.isEmpty();
   }
 }

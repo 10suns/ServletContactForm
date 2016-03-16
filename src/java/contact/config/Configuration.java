@@ -13,19 +13,20 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
  * @author tranthanhan
  */
 public class Configuration {
-  public static final String VIEW_DIR = "/WEB-INF/jsp/";
-  
-  public Configuration() {
 
-  }
+    public static final String VIEW_DIR = "/WEB-INF/jsp/";
 
-  public static DataSource getDataSource() {
-    DriverManagerDataSource dataSource = new DriverManagerDataSource();
-    dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-    dataSource.setUrl("jdbc:mysql://localhost:3306/contactdb");
-    dataSource.setUsername("root");
-    dataSource.setPassword("");
+    public Configuration() {}
 
-    return dataSource;
+//<editor-fold defaultstate="collapsed" desc="database connection">
+    public static DataSource getDataSource() {
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/contactdb");
+        dataSource.setUsername("root");
+        dataSource.setPassword("");
+
+        return dataSource;
     }
+//</editor-fold>
 }

@@ -22,69 +22,98 @@ import org.springframework.jdbc.core.RowMapper;
  *
  * @author tranthanhan
  */
-public class ContactDAOImpl implements ContactDAO{
-  private JdbcTemplate jdbcTemplate;
+public class ContactDAOImpl implements ContactDAO {
 
-  public ContactDAOImpl(DataSource datasource) {
-    jdbcTemplate = new JdbcTemplate(datasource);
-  }
+    private JdbcTemplate jdbcTemplate;
 
-  @Override
-  public int saveOrUpdate(Contact contact) {
-    if (contact.getId() > 0) {
-      // update
-      String sql = "UPDATE contact SET name = ?, email =?, address =?, telephone=? WHERE contact_id=?";
-      return jdbcTemplate.update(sql, contact.getName(), contact.getEmail(), contact.getAddress(), contact.getTelephone(), contact.getId());
-    } else {
-      // insert
-      String sql = "INSERT INTO contact(name, email, address, telephone) VALUE(?, ?, ?, ?)";
-      return  jdbcTemplate.update(sql, contact.getName(), contact.getEmail(), contact.getAddress(), contact.getTelephone());
+    public ContactDAOImpl(DataSource datasource) {
+        jdbcTemplate = new JdbcTemplate(datasource);
     }
-  }
 
-  @Override
-  public int delete(int contactID) {
-    String sql = "DELETE FROM contact WHERE contact_id=?";
-    return jdbcTemplate.update(sql, contactID);
-  }
-
-  @Override
-  public Contact get(int contactID) {
-    String sql = "SELECT * FROM contact WHERE contact_id=" + contactID;
-    return jdbcTemplate.query(sql, new ResultSetExtractor<Contact>() {
-      @Override
-      public Contact extractData(ResultSet rs) throws SQLException, DataAccessException {
-        if (rs.next()){
-          Contact contact = new Contact();
-          contact.setId(rs.getInt("contact_id"));
-          contact.setName(rs.getString("name"));
-          contact.setEmail(rs.getString("email"));
-          contact.setAddress(rs.getString("address"));
-          contact.setTelephone(rs.getString("telephone"));
-          return contact;
+//<editor-fold defaultstate="collapsed" desc="save and update">
+    @Override
+    public int saveOrUpdate(Contact contact) {
+        try {
+            if (contact.getId() > 0) {
+                // update
+                String sql = "UPDATE contact SET name = ?, email =?, address =?, telephone=? WHERE contact_id=?";
+                return jdbcTemplate.update(sql, contact.getName(), contact.getEmail(), contact.getAddress(), contact.getTelephone(), contact.getId());
+            } else {
+                // insert
+                String sql = "INSERT INTO contact(name, email, address, telephone) VALUE(?, ?, ?, ?)";
+                return jdbcTemplate.update(sql, contact.getName(), contact.getEmail(), contact.getAddress(), contact.getTelephone());
+            }
+        } catch (DataAccessException ex) {
+            ex.printStackTrace();
+            return -1;
         }
-        return null;
-      }
-    });
-  }
+    }
+//</editor-fold>
 
-  @Override
-  public List<Contact> list() {
-    String sql = "SELECT * from contact";
-    List<Contact> listContact = jdbcTemplate.query(sql, new RowMapper<Contact>() {
-      @Override
-      public Contact mapRow(ResultSet rs, int rowNum) throws SQLException {
-        Contact aContact = new Contact();
-        aContact.setId(rs.getInt("contact_id"));
-        aContact.setName(rs.getString("name"));
-        aContact.setEmail(rs.getString("email"));
-        aContact.setAddress(rs.getString("address"));
-        aContact.setTelephone(rs.getString("telephone"));
-    
-        return  aContact;
-      }
-    });
+//<editor-fold defaultstate="collapsed" desc="delete">
+    @Override
+    public int delete(int contactID) {
+        try {
+        String sql = "DELETE FROM contact WHERE contact_id=?";
+        return jdbcTemplate.update(sql, contactID);
+        } catch(DataAccessException ex) {
+            ex.printStackTrace();
+            return -1;
+        }
+    }
+//</editor-fold>
 
-    return listContact;
-  }
+//<editor-fold defaultstate="collapsed" desc="get a contact">
+    @Override
+    public Contact get(int contactID) {
+        try {
+            String sql = "SELECT * FROM contact WHERE contact_id=" + contactID;
+            return jdbcTemplate.query(sql, new ResultSetExtractor<Contact>() {
+                @Override
+                public Contact extractData(ResultSet rs) throws SQLException, DataAccessException {
+                    if (rs.next()) {
+                        Contact contact = new Contact();
+                        contact.setId(rs.getInt("contact_id"));
+                        contact.setName(rs.getString("name"));
+                        contact.setEmail(rs.getString("email"));
+                        contact.setAddress(rs.getString("address"));
+                        contact.setTelephone(rs.getString("telephone"));
+                        return contact;
+                    }
+                    return null;
+                }
+            });
+        } catch (DataAccessException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
+//</editor-fold>
+
+//<editor-fold defaultstate="collapsed" desc="get all contacts">
+    @Override
+    public List<Contact> list() {
+        String sql = "SELECT * from contact";
+        try {
+            List<Contact> listContact = jdbcTemplate.query(sql, new RowMapper<Contact>() {
+            @Override
+            public Contact mapRow(ResultSet rs, int rowNum) throws SQLException {
+                Contact aContact = new Contact();
+                aContact.setId(rs.getInt("contact_id"));
+                aContact.setName(rs.getString("name"));
+                aContact.setEmail(rs.getString("email"));
+                aContact.setAddress(rs.getString("address"));
+                aContact.setTelephone(rs.getString("telephone"));
+
+                return aContact;
+            }
+            });
+            return listContact;
+        } catch(DataAccessException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
+//</editor-fold>
+
 }

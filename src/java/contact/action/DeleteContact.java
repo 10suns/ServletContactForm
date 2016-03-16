@@ -5,6 +5,7 @@
  */
 package contact.action;
 
+import com.google.gson.JsonObject;
 import contact.config.Configuration;
 import contact.dao.ContactDAO;
 import contact.dao.ContactDAOImpl;
@@ -16,19 +17,25 @@ import javax.servlet.http.*;
  *
  * @author tranthanhan
  */
-public class DeleteContact extends HttpServlet{
+public class DeleteContact extends HttpServlet {
 
-  @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-    ContactDAO contactDAO = new ContactDAOImpl(Configuration.getDataSource());
-    try {
-      int id = Integer.parseInt(request.getParameter("id"));
-      if (contactDAO.delete(id) > 0) {
-        response.sendRedirect("");
-      }
-    } catch (Exception e) {
-      response.sendError(HttpServletResponse.SC_NOT_FOUND);
+    @Override
+    public void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+
+        ContactDAO contactDAO = new ContactDAOImpl(Configuration.getDataSource());
+        JsonObject ret = new JsonObject();
+
+        int id = Integer.parseInt(request.getParameter("id"));
+
+        if (contactDAO.delete(id) > 0) {
+            ret.addProperty("result", Boolean.FALSE);
+        } else {
+            ret.addProperty("errors", "Can not delete this contact!");
+        }
+
+        response.getWriter().write(ret.toString());
     }
-  }
 }

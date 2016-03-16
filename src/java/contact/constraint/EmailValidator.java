@@ -32,6 +32,4 @@ public class EmailValidator implements ConstraintValidator<Email, String>{
     }
     return result;
   }
-
-
 }
