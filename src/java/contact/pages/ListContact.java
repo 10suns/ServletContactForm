@@ -3,33 +3,33 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package contact.action;
+package contact.pages;
 
 import contact.config.Configuration;
 import contact.dao.ContactDAO;
 import contact.dao.ContactDAOImpl;
 import contact.model.Contact;
-import java.io.*;
+
+import java.io.IOException;
+import java.util.List;
+
 import javax.servlet.*;
 import javax.servlet.http.*;
-
 /**
  *
  * @author tranthanhan
  */
-public class NewContact extends HttpServlet {
-
-  private ContactDAO contactDAO = new ContactDAOImpl(Configuration.getDataSource());
-
+public class ListContact extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-    response.setContentType("text/html");
+    response.setContentType("text/html; charset=UTF-8");
+    request.setCharacterEncoding("UTF-8");
 
-    if (request.getParameter("id") != null) {
-      Contact contact = contactDAO.get(Integer.parseInt(request.getParameter("id")));
-      request.setAttribute("contact", contact);
-    }
-    request.getRequestDispatcher(Configuration.VIEW_DIR + "contactForm.jsp" ).forward(request, response);
+    ContactDAO contactDAO = new ContactDAOImpl(Configuration.getDataSource());
+    List<Contact> contacts = contactDAO.list();
+
+    request.setAttribute("contacts", contacts);
+    request.getRequestDispatcher(Configuration.VIEW_DIR + "contactList.jsp" ).forward(request, response);
   }
 }

@@ -23,6 +23,9 @@ public class EmailValidator implements ConstraintValidator<Email, String>{
 
   @Override
   public boolean isValid(String value, ConstraintValidatorContext cvc) {
+    if (value == null){
+        return false;
+    }
     boolean result = true;
     try {
        InternetAddress emailAddr = new InternetAddress(value);

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package contact.action;
+package contact.ajax;
 
 import com.google.gson.JsonObject;
 import contact.config.Configuration;
@@ -30,19 +30,21 @@ public class UpdateContact extends HttpServlet {
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("application/json");
+        response.setContentType("application/json; charset=UTF-8");
+        request.setCharacterEncoding("UTF-8");
+
         ContactDAO contactDAO = new ContactDAOImpl(Configuration.getDataSource());
         JsonObject ret = new JsonObject();
         Contact contact = new Contact();
 
-        if (!request.getParameter("id").equals("")) {
+        if (request.getParameter("id") != null && !request.getParameter("id").equals("")) {
             contact = contactDAO.get(Integer.parseInt(request.getParameter("id")));
         }
 
         contact.setEmail(request.getParameter("email"));
         contact.setName(request.getParameter("name"));
-        contact.setAddress(request.getParameter("add"));
-        contact.setTelephone(request.getParameter("tel"));
+        contact.setAddress(request.getParameter("address"));
+        contact.setTelephone(request.getParameter("telephone"));
 
         if (contact.isValid() && contactDAO.saveOrUpdate(contact) > 0) {
             ret.addProperty("result", Boolean.TRUE);

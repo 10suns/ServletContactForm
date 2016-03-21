@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package contact.action;
+package contact.ajax;
 
 import com.google.gson.JsonObject;
 import contact.config.Configuration;
@@ -22,7 +22,7 @@ public class DeleteContact extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("application/json");
+        response.setContentType("application/json; charset=UTF-8");
         response.setCharacterEncoding("UTF-8");
 
         ContactDAO contactDAO = new ContactDAOImpl(Configuration.getDataSource());
@@ -31,7 +31,7 @@ public class DeleteContact extends HttpServlet {
         int id = Integer.parseInt(request.getParameter("id"));
 
         if (contactDAO.delete(id) > 0) {
-            ret.addProperty("result", Boolean.FALSE);
+            ret.addProperty("result", Boolean.TRUE);
         } else {
             ret.addProperty("errors", "Can not delete this contact!");
         }

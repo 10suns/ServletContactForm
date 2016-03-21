@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package contact.action;
+package contact.pages;
 
 import contact.config.Configuration;
 import contact.dao.ContactDAO;
@@ -26,7 +26,9 @@ public class EditContact extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-    response.setContentType("text/html");
+    response.setContentType("text/html; charset=UTF-8");
+    request.setCharacterEncoding("UTF-8");
+    
     try {
       int id = Integer.parseInt(request.getParameter("id"));
     } catch (Exception e) {

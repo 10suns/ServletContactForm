@@ -24,7 +24,7 @@ import javax.validation.Payload;
 @Target( { METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Email {
- String message() default "This is not an email.";
+ String message() default "Please input an valid email address";
 
  Class<?>[] groups() default {};
 

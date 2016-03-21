@@ -3,45 +3,44 @@
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
+    <welcome-file-list>
+        <welcome-file>/</welcome-file>
+    </welcome-file-list>
     <servlet>
         <servlet-name>NewContact</servlet-name>
-        <servlet-class>contact.action.NewContact</servlet-class>
+        <servlet-class>contact.pages.NewContact</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>NewContact</servlet-name>
         <url-pattern>/contacts/new</url-pattern>
     </servlet-mapping>
-
-     <servlet>
+    <servlet>
         <servlet-name>EditContact</servlet-name>
-        <servlet-class>contact.action.EditContact</servlet-class>
+        <servlet-class>contact.pages.EditContact</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>EditContact</servlet-name>
         <url-pattern>/contacts/edit</url-pattern>
     </servlet-mapping>
-
     <servlet>
         <servlet-name>ContactList</servlet-name>
-        <servlet-class>contact.action.ListContact</servlet-class>
+        <servlet-class>contact.pages.ListContact</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>ContactList</servlet-name>
         <url-pattern>/contacts/</url-pattern>
     </servlet-mapping>
-
     <servlet>
         <servlet-name>ContactUpdate</servlet-name>
-        <servlet-class>contact.action.UpdateContact</servlet-class>
+        <servlet-class>contact.ajax.UpdateContact</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>ContactUpdate</servlet-name>
         <url-pattern>/contacts/update</url-pattern>
     </servlet-mapping>
-
     <servlet>
         <servlet-name>ContactDelete</servlet-name>
-        <servlet-class>contact.action.DeleteContact</servlet-class>
+        <servlet-class>contact.ajax.DeleteContact</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>ContactDelete</servlet-name>
