@@ -36,11 +36,11 @@ public class ContactDAOImpl implements ContactDAO {
         try {
             if (contact.getId() > 0) {
                 // update
-                String sql = "UPDATE contact SET name = ?, email =?, address =?, telephone=? WHERE contact_id=?";
+                String sql = "UPDATE CONTACT SET NAME = ?, EMAIL =?, ADDRESS = ?, TELEPHONE= ? WHERE CONTACT_ID = ?";
                 return jdbcTemplate.update(sql, contact.getName(), contact.getEmail(), contact.getAddress(), contact.getTelephone(), contact.getId());
             } else {
                 // insert
-                String sql = "INSERT INTO contact(name, email, address, telephone) VALUE(?, ?, ?, ?)";
+                String sql = "INSERT INTO CONTACT(NAME, EMAIL, ADDRESS, TELEPHONE) VALUE(?, ?, ?, ?)";
                 return jdbcTemplate.update(sql, contact.getName(), contact.getEmail(), contact.getAddress(), contact.getTelephone());
             }
         } catch (DataAccessException ex) {
@@ -67,7 +67,7 @@ public class ContactDAOImpl implements ContactDAO {
     @Override
     public Contact get(int contactID) {
         try {
-            String sql = "SELECT * FROM contact WHERE contact_id=" + contactID;
+            String sql = "SELECT * FROM CONTAT WHERE CONTACT_ID=" + contactID;
             return jdbcTemplate.query(sql, new ResultSetExtractor<Contact>() {
                 @Override
                 public Contact extractData(ResultSet rs) throws SQLException, DataAccessException {
