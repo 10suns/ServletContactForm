@@ -93,7 +93,7 @@ public class ContactDAOImpl implements ContactDAO {
 //<editor-fold defaultstate="collapsed" desc="get all contacts">
     @Override
     public List<Contact> list() {
-        String sql = "SELECT * from contact";
+        String sql = "SELECT * FROM CONTACT";
         try {
             List<Contact> listContact = jdbcTemplate.query(sql, new RowMapper<Contact>() {
             @Override
