@@ -67,8 +67,8 @@ public class ContactDAOImpl implements ContactDAO {
     @Override
     public Contact get(int contactID) {
         try {
-            String sql = "SELECT * FROM CONTAT WHERE CONTACT_ID=" + contactID;
-            return jdbcTemplate.query(sql, new ResultSetExtractor<Contact>() {
+            String sql = "SELECT * FROM CONTACT WHERE CONTACT_ID=?";
+            return jdbcTemplate.query(sql, new Object[] { contactID }, new ResultSetExtractor<Contact>() {
                 @Override
                 public Contact extractData(ResultSet rs) throws SQLException, DataAccessException {
                     if (rs.next()) {
